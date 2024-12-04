@@ -5,6 +5,14 @@
     </h3>
     <p class="p-4 border-b border-gray-200">{{ date }}</p>
     <p class="p-4">{{ description }}</p>
+    <section class="flex justify-end p-4">
+      <button
+        class="text-sm font-medium border border-gray-200 rounded-full px-3 py-1 hover:bg-gray-100"
+        @click="$emit('register')"
+      >
+        Rigister
+      </button>
+    </section>
   </div>
 </template>
 
@@ -18,5 +26,8 @@ export default defineComponent({
     date: String,
     description: String,
   },
+  emits: ["register"],
+
+  methods: {},
 });
 </script>
