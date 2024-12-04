@@ -6,19 +6,25 @@
     <p class="p-4 border-b border-gray-200">{{ date }}</p>
     <p class="p-4">{{ description }}</p>
     <section class="flex justify-end p-4">
-      <Button />
+      <!-- <button
+        class="text-sm font-medium border border-gray-200 rounded-full px-3 py-1 hover:bg-gray-100"
+        @click="$emit('register')"
+      >
+        Register
+      </button> -->
+      <newbutton label="Rigster" @click="$emit('register')" />
     </section>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Button from "./Button.vue";
+import newbutton from "./NewButton.vue";
 
 export default defineComponent({
   name: "EventCard",
   components: {
-    Button,
+    newbutton,
   },
   props: {
     title: String,
