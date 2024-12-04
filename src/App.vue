@@ -5,3 +5,7 @@
     <h2 class="text-2xl font-medium">Your Bookings</h2>
   </main>
 </template>
+
+<script lang="ts">
+import EventCard from "./components/EventCard.vue";
+</script>
