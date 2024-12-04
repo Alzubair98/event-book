@@ -9,6 +9,7 @@
         title="event2"
         date="today"
         description="important"
+        @register="console.log('Registered!')"
       />
     </section>
     <h2 class="text-2xl font-medium">Your Bookings</h2>
