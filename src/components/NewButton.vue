@@ -10,6 +10,7 @@
 <script>
 export default {
   name: "newbutton",
+  emits: ["click"],
   props: {
     label: String,
   },
