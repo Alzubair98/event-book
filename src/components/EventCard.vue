@@ -12,7 +12,7 @@
       >
         Register
       </button> -->
-      <newbutton label="Rigster" @click="$emit('register')" />
+      <newbutton label="Rigster" @click="$emit('register')">Rigster</newbutton>
     </section>
   </div>
 </template>
