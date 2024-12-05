@@ -1,6 +1,9 @@
 <template>
   <button
-    class="text-sm font-medium border border-gray-200 rounded-full px-3 py-1 hover:bg-gray-100"
+    :class="[
+      'text-sm font-medium rounded-full px-3 py-1',
+      variants[variant] ?? variants.default,
+    ]"
     @click="$emit('click')"
   >
     <slot></slot>
@@ -12,6 +15,20 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "newbutton",
+  data() {
+    return {
+      variants: {
+        default: "border border-gray-200 hover:bg-gray-100",
+        danger: "bg-red-200 enabled:hover:bg-red-100 text-red-900",
+      },
+    };
+  },
   emits: ["click"],
+  props: {
+    variant: {
+      type: String,
+      default: "default",
+    },
+  },
 });
 </script>

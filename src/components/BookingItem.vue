@@ -1,5 +1,10 @@
 <template>
-  <sectionCard> Booking to Vue Conference </sectionCard>
+  <sectionCard>
+    <div class="flex justify-between">
+      <div>Booking to vue Conference</div>
+      <newbutton variant="danger">Cancel</newbutton>
+    </div>
+  </sectionCard>
 </template>
 
 <script lang="ts">
