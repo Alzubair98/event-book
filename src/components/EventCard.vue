@@ -28,7 +28,5 @@ export default defineComponent({
     description: String,
   },
   emits: ["register"],
-
-  methods: {},
 });
 </script>
