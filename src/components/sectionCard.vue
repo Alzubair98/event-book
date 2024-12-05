@@ -1,7 +1,7 @@
 <template>
   <RoundedCard>
     <h3
-      v-if="$slots.headers"
+      v-if="$slots.header"
       class="p-4 font-medium text-xl border-b border-gray-200"
     >
       <slot name="header"></slot>
