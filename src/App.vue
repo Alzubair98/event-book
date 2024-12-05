@@ -13,15 +13,22 @@
       />
     </section>
     <h2 class="text-2xl font-medium">Your Bookings</h2>
+    <section class="flex flex-col gap-6">
+      <CardComponent v-for="i in 8" :key="i"
+        >This is the first card</CardComponent
+      >
+    </section>
   </main>
 </template>
 
 <script lang="ts">
 import EventCard from "./components/EventCard.vue";
+import CardComponent from "./components/CardComponent.vue";
 
 export default {
   components: {
     EventCard,
+    CardComponent,
   },
 };
 </script>
