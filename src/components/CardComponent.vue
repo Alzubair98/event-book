@@ -3,18 +3,18 @@
     class="flex flex-row justify-between border border-gray-200 bg-white rounded-md p-4"
   >
     <slot>Test</slot>
-    <button
-      class="text-sm font-medium border border-gray-200 rounded-full px-3 py-1 hover:bg-gray-100"
-    >
-      Cancel
-    </button>
+    <newbutton>test</newbutton>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import newbutton from "./NewButton.vue";
 
 export default defineComponent({
   name: "Card",
+  components: {
+    newbutton,
+  },
 });
 </script>
