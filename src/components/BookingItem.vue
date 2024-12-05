@@ -1,9 +1,9 @@
 <template>
-  <RoundedCard
-    class="flex flex-row justify-between border border-gray-200 bg-white rounded-md p-4"
-  >
-    <slot>Test</slot>
-    <newbutton>test</newbutton>
+  <RoundedCard>
+    <div class="p-4 flex flex-row justify-between">
+      <slot>Test</slot>
+      <newbutton>test</newbutton>
+    </div>
   </RoundedCard>
 </template>
 
