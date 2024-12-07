@@ -10,7 +10,7 @@
           :title="event.title"
           :date="event.date"
           :description="event.description"
-          @register="console.log('Registered!')"
+          @register="handleRegistration(event)"
       /></template>
       <template v-else><LoadingEventCard v-for="i in 4" :key="i" /></template>
     </section>
@@ -60,6 +60,30 @@ export default {
         console.log("Failed to fetch events;", error);
       } finally {
         this.eventsLoading = false;
+      }
+    },
+
+    async handleRegistration(event: Event) {
+      const newBooking: {
+        id: string;
+        userId: number;
+        eventId: string;
+        eventTitle: string;
+      } = {
+        id: Date.now().toString(),
+        userId: 1,
+        eventId: event.id,
+        eventTitle: event.title,
+      };
+      try {
+        await fetch("http://localhost:3001/bookings", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...newBooking }),
+        });
+        console.log("sending done");
+      } catch (error) {
+        console.log(error);
       }
     },
   },
