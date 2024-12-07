@@ -110,9 +110,14 @@ export default {
             (b: Bookings) => b.id == newBooking.id
           );
           this.bookings[index] = await response.json();
+        } else {
+          throw new Error("Failed to confrom booking");
         }
       } catch (error) {
         console.log(error);
+        this.bookings = this.bookings.filter(
+          (b: Bookings) => b.id != newBooking.id
+        );
       }
     },
 
