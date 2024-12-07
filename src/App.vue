@@ -12,12 +12,16 @@
           :description="event.description"
           @register="handleRegistration(event)"
       /></template>
-      <template v-else><LoadingEventCard v-for="i in 4" :key="i" /></template>
+      <template v-else>
+        <LoadingEventCard v-for="i in 4" :key="i" />
+      </template>
     </section>
 
     <h2 class="text-2xl font-medium">Your Bookings</h2>
     <section class="flex flex-col gap-6">
-      <BookingCard v-for="i in 3" :key="i">This is the first card</BookingCard>
+      <BookingCard v-for="book in bookings" :key="book.id">{{
+        book.eventTitle
+      }}</BookingCard>
     </section>
   </main>
 </template>
@@ -36,11 +40,19 @@ interface Event {
   location: string;
 }
 
+type Bookings = {
+  id: string;
+  userId: number;
+  eventId: string;
+  eventTitle: string;
+};
+
 export default {
   data() {
     return {
       events: ref<Event[]>([]),
       eventsLoading: ref(false),
+      bookings: ref<Bookings[]>([]),
     };
   },
 
@@ -86,9 +98,19 @@ export default {
         console.log(error);
       }
     },
+
+    async fetchBookings() {
+      try {
+        const response = await fetch("http://localhost:3001/bookings");
+        this.bookings = await response.json();
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   mounted() {
     this.fetchEvents();
+    this.fetchBookings();
   },
 };
 </script>
