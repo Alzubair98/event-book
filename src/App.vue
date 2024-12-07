@@ -19,9 +19,14 @@
 
     <h2 class="text-2xl font-medium">Your Bookings</h2>
     <section class="flex flex-col gap-6">
-      <BookingCard v-for="book in bookings" :key="book.id">{{
-        book.eventTitle
-      }}</BookingCard>
+      <template v-if="!eventsLoading">
+        <BookingCard v-for="book in bookings" :key="book.id">{{
+          book.eventTitle
+        }}</BookingCard>
+      </template>
+      <template v-else>
+        <loadingEventBook v-for="i in 2" :key="i" />
+      </template>
     </section>
   </main>
 </template>
@@ -30,6 +35,7 @@
 import EventCard from "./components/EventCard.vue";
 import BookingCard from "./components/BookingItem.vue";
 import LoadingEventCard from "./components/LoadingEventCard.vue";
+import LoadingEventBook from "./components/LoadingEventBook.vue";
 import { ref } from "vue";
 
 interface Event {
@@ -60,6 +66,7 @@ export default {
     EventCard,
     BookingCard,
     LoadingEventCard,
+    LoadingEventBook,
   },
 
   methods: {
@@ -101,10 +108,13 @@ export default {
 
     async fetchBookings() {
       try {
+        this.eventsLoading = true;
         const response = await fetch("http://localhost:3001/bookings");
         this.bookings = await response.json();
       } catch (error) {
         console.log(error);
+      } finally {
+        this.eventsLoading = false;
       }
     },
   },
