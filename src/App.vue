@@ -24,6 +24,7 @@
           v-for="book in bookings"
           :key="book.id"
           :status="book.status"
+          @canceld="cancelBooking(book)"
           >{{ book.eventTitle }}</BookingCard
         >
       </template>
@@ -87,6 +88,10 @@ export default {
       }
     },
 
+    findBookingById(id: string): number {
+      return this.bookings.findIndex((b: Bookings) => b.id == id);
+    },
+
     async handleRegistration(event: Event) {
       if (
         this.bookings.some(
@@ -115,9 +120,7 @@ export default {
         });
 
         if (response.ok) {
-          const index = this.bookings.findIndex(
-            (b: Bookings) => b.id == newBooking.id
-          );
+          const index: number = this.findBookingById(newBooking.id);
           this.bookings[index] = await response.json();
         } else {
           throw new Error("Failed to confrom booking");
@@ -139,6 +142,11 @@ export default {
       } finally {
         this.bookingLoading = false;
       }
+    },
+
+    async cancelBooking(event: Bookings) {
+      try {
+      } catch {}
     },
   },
   mounted() {

@@ -5,7 +5,7 @@
         <div><slot></slot></div>
         <div>{{ status }}</div>
       </div>
-      <newbutton variant="danger">Cancel</newbutton>
+      <newbutton variant="danger" @click="$emit('canceld')">Cancel</newbutton>
     </div>
   </sectionCard>
 </template>
@@ -24,5 +24,6 @@ export default defineComponent({
   props: {
     status: String,
   },
+  emits: ["canceld"],
 });
 </script>
