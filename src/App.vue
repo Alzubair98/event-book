@@ -22,11 +22,33 @@
 <script lang="ts">
 import EventCard from "./components/EventCard.vue";
 import BookingCard from "./components/BookingItem.vue";
+import { ref } from "vue";
 
 export default {
+  data() {
+    return {
+      events: ref([]),
+    };
+  },
+
   components: {
     EventCard,
     BookingCard,
+  },
+
+  methods: {
+    async fetchEvents() {
+      try {
+        const response = await fetch("http://localhost:3001/events");
+        this.events = await response.json();
+      } catch (error) {
+        console.log("Failed to fetch events;", error);
+      }
+      console.log(this.events);
+    },
+  },
+  mounted() {
+    this.fetchEvents();
   },
 };
 </script>
