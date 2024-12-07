@@ -4,11 +4,11 @@
     <h2 class="text-2xl font-medium">All Events</h2>
     <section class="grid grid-cols-2 gap-8">
       <EventCard
-        v-for="i in 8"
-        :key="i"
-        title="event2"
-        date="today"
-        description="important"
+        v-for="event in events"
+        :key="event.id"
+        :title="event.title"
+        :date="event.date"
+        :description="event.description"
         @register="console.log('Registered!')"
       />
     </section>
@@ -24,10 +24,18 @@ import EventCard from "./components/EventCard.vue";
 import BookingCard from "./components/BookingItem.vue";
 import { ref } from "vue";
 
+interface Event {
+  id: string;
+  title: string;
+  date: string;
+  description: string;
+  location: string;
+}
+
 export default {
   data() {
     return {
-      events: ref([]),
+      events: ref<Event[]>([]),
     };
   },
 
