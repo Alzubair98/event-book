@@ -24,7 +24,7 @@
           v-for="book in bookings"
           :key="book.id"
           :status="book.status"
-          @canceld="cancelBooking(book)"
+          @canceld="cancelBooking(book.id)"
           >{{ book.eventTitle }}</BookingCard
         >
       </template>
@@ -144,9 +144,23 @@ export default {
       }
     },
 
-    async cancelBooking(event: Bookings) {
+    async cancelBooking(bookId: string) {
+      const index: number = this.findBookingById(bookId);
+      const originalBookings = this.bookings[index];
+      this.bookings.splice(index, 1);
       try {
-      } catch {}
+        const response = await fetch(
+          `http://localhost:3001/bookings/${bookId}`,
+          { method: "DELETE" }
+        );
+
+        if (!response.ok) {
+          throw new Error("booking could not be cancelled");
+        }
+      } catch (error) {
+        console.log("Failed to cancel bookings:", error);
+        this.bookings.splice(index, 0, originalBookings);
+      }
     },
   },
   mounted() {
