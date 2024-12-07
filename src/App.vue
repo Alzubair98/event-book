@@ -88,6 +88,15 @@ export default {
     },
 
     async handleRegistration(event: Event) {
+      if (
+        this.bookings.some(
+          (book: Bookings) => book.eventId == event.id && book.userId == 1
+        )
+      ) {
+        alert("You are already registered for this event.");
+        return;
+      }
+
       const newBooking: Bookings = {
         id: Date.now().toString(),
         userId: 1,
@@ -114,7 +123,6 @@ export default {
           throw new Error("Failed to confrom booking");
         }
       } catch (error) {
-        console.log(error);
         this.bookings = this.bookings.filter(
           (b: Bookings) => b.id != newBooking.id
         );
