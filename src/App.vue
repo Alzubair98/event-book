@@ -20,9 +20,12 @@
     <h2 class="text-2xl font-medium">Your Bookings</h2>
     <section class="flex flex-col gap-6">
       <template v-if="!bookingLoading">
-        <BookingCard v-for="book in bookings" :key="book.id">{{
-          book.eventTitle
-        }}</BookingCard>
+        <BookingCard
+          v-for="book in bookings"
+          :key="book.id"
+          :status="book.status"
+          >{{ book.eventTitle }}</BookingCard
+        >
       </template>
       <template v-else>
         <loadingEventBook v-for="i in 2" :key="i" />
@@ -51,6 +54,7 @@ type Bookings = {
   userId: number;
   eventId: string;
   eventTitle: string;
+  status: string;
 };
 
 export default {
@@ -84,24 +88,29 @@ export default {
     },
 
     async handleRegistration(event: Event) {
-      const newBooking: {
-        id: string;
-        userId: number;
-        eventId: string;
-        eventTitle: string;
-      } = {
+      const newBooking: Bookings = {
         id: Date.now().toString(),
         userId: 1,
         eventId: event.id,
         eventTitle: event.title,
+        status: "pending",
       };
+
+      this.bookings.push(newBooking);
+
       try {
-        await fetch("http://localhost:3001/bookings", {
+        const response = await fetch("http://localhost:3001/bookings", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...newBooking }),
+          body: JSON.stringify({ ...newBooking, status: "confirmed" }),
         });
-        console.log("sending done");
+
+        if (response.ok) {
+          const index = this.bookings.findIndex(
+            (b: Bookings) => b.id == newBooking.id
+          );
+          this.bookings[index] = await response.json();
+        }
       } catch (error) {
         console.log(error);
       }

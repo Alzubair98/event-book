@@ -1,7 +1,10 @@
 <template>
   <sectionCard>
     <div class="flex justify-between">
-      <slot></slot>
+      <div class="flex space-x-2">
+        <div><slot></slot></div>
+        <div>{{ status }}</div>
+      </div>
       <newbutton variant="danger">Cancel</newbutton>
     </div>
   </sectionCard>
@@ -17,6 +20,9 @@ export default defineComponent({
   components: {
     newbutton,
     sectionCard,
+  },
+  props: {
+    status: String,
   },
 });
 </script>
