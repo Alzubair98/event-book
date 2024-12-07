@@ -19,7 +19,7 @@
 
     <h2 class="text-2xl font-medium">Your Bookings</h2>
     <section class="flex flex-col gap-6">
-      <template v-if="!eventsLoading">
+      <template v-if="!bookingLoading">
         <BookingCard v-for="book in bookings" :key="book.id">{{
           book.eventTitle
         }}</BookingCard>
@@ -59,6 +59,7 @@ export default {
       events: ref<Event[]>([]),
       eventsLoading: ref(false),
       bookings: ref<Bookings[]>([]),
+      bookingLoading: ref(false),
     };
   },
 
@@ -108,13 +109,13 @@ export default {
 
     async fetchBookings() {
       try {
-        this.eventsLoading = true;
+        this.bookingLoading = true;
         const response = await fetch("http://localhost:3001/bookings");
         this.bookings = await response.json();
       } catch (error) {
         console.log(error);
       } finally {
-        this.eventsLoading = false;
+        this.bookingLoading = false;
       }
     },
   },
