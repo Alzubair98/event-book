@@ -1,6 +1,6 @@
 <template>
   <section class="grid grid-cols-2 gap-8">
-    <template v-if="!eventsLoading">
+    <template v-if="!Loading">
       <EventCard
         v-for="event in events"
         :key="event.id"
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       events: ref<Event[]>([]),
-      eventsLoading: ref(false),
+      Loading: ref(false),
     };
   },
   components: {
@@ -44,13 +44,13 @@ export default {
   methods: {
     async fetchEvents() {
       try {
-        this.eventsLoading = true;
+        this.Loading = true;
         const response = await fetch("http://localhost:3001/events");
         this.events = await response.json();
       } catch (error) {
         console.log("Failed to fetch events;", error);
       } finally {
-        this.eventsLoading = false;
+        this.Loading = false;
       }
     },
   },
