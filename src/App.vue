@@ -5,7 +5,7 @@
     <EventList @register="handleRegistration($event)" />
     <h2 class="text-2xl font-medium">Your Bookings</h2>
     <section class="flex flex-col gap-6">
-      <template v-if="!bookingLoading">
+      <template v-if="!Loading">
         <BookingCard
           v-for="book in bookings"
           :key="book.id"
@@ -25,7 +25,9 @@
 import BookingCard from "./components/BookingItem.vue";
 import LoadingEventBook from "./components/LoadingEventBook.vue";
 import EventList from "./components/EventList.vue";
-import { ref } from "vue";
+import useBooking from "./composables/useBookings";
+
+const { bookings, Loading, fetchBookings } = useBooking();
 
 type Bookings = {
   id: string;
@@ -45,8 +47,9 @@ interface Event {
 export default {
   data() {
     return {
-      bookings: ref<Bookings[]>([]),
-      bookingLoading: ref(false),
+      bookings,
+      Loading,
+      fetchBookings,
     };
   },
 
@@ -98,18 +101,6 @@ export default {
     },
     findBookingById(id: string): number {
       return this.bookings.findIndex((b: Bookings) => b.id == id);
-    },
-
-    async fetchBookings() {
-      try {
-        this.bookingLoading = true;
-        const response = await fetch("http://localhost:3001/bookings");
-        this.bookings = await response.json();
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.bookingLoading = false;
-      }
     },
 
     async cancelBooking(bookId: string) {
