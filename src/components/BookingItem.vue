@@ -3,7 +3,10 @@
     <div class="flex justify-between">
       <div class="flex space-x-2">
         <div><slot></slot></div>
-        <div><component :is="icon" :class="{ 'animate-spin': pending }" /></div>
+        <div>
+          {{ status
+          }}<component :is="icon" :class="{ 'animate-spin': pending }" />
+        </div>
       </div>
       <newbutton variant="danger" @click="$emit('canceld')">Cancel</newbutton>
     </div>
@@ -33,7 +36,7 @@ export default defineComponent({
       return this.status === "pending";
     },
     icon() {
-      return this.pending ? LoaderPinwheel : Check;
+      return this.pending ? LoaderPinwheel : Check; //timer
     },
   },
 });

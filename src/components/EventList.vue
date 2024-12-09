@@ -19,7 +19,7 @@
             :title="event.title"
             :date="event.date"
             :description="event.description"
-            @register="$emit('register', event)"
+            @register="handleRegistration(event)"
           /> </template
         ><template v-else>
           <div class="col-span-2 text-center text-gray-500">No Events Yet</div>
@@ -37,6 +37,9 @@ import LoadingEventCard from "./LoadingEventCard.vue";
 import EventCard from "./EventCard.vue";
 import sectionCard from "./sectionCard.vue";
 import NewButton from "./NewButton.vue";
+import useBooking from "../composables/useBookings";
+
+const { handleRegistration } = useBooking();
 
 interface Event {
   id: string;
@@ -54,6 +57,7 @@ export default {
       events: ref<Event[]>([]),
       Loading: ref(false),
       error: ref(null),
+      handleRegistration,
     };
   },
   components: {
@@ -80,6 +84,5 @@ export default {
   mounted() {
     this.fetchEvents();
   },
-  emits: ["register"],
 };
 </script>
