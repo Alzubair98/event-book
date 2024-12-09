@@ -1,13 +1,6 @@
 <template>
   <template v-if="bookingsErrors">
-    <sectionCard>
-      <div class="flex flex-col space-y-4 items-center justify-center">
-        <div class="text-red-500">
-          Could not load bookings at the moment. Please try again.
-        </div>
-        <NewButton @click="fetchBookings">Retry Now</NewButton>
-      </div>
-    </sectionCard>
+    <ErrorCard :fetch="fetchBookings">bookings</ErrorCard>
   </template>
   <template v-else>
     <section class="flex flex-col gap-6">
@@ -31,6 +24,7 @@
 import useBooking from "../composables/useBookings";
 import BookingCard from "./BookingItem.vue";
 import loadingEventBook from "./LoadingEventBook.vue";
+import ErrorCard from "./ErrorCard.vue";
 import sectionCard from "./sectionCard.vue";
 import NewButton from "./NewButton.vue";
 
@@ -52,6 +46,7 @@ export default {
     loadingEventBook,
     sectionCard,
     NewButton,
+    ErrorCard,
   },
 
   mounted() {

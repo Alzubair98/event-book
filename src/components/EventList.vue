@@ -1,13 +1,6 @@
 <template>
   <template v-if="error">
-    <sectionCard>
-      <div class="flex flex-col space-y-4 items-center justify-center">
-        <div class="text-red-500">
-          Could not load events at the moment. Please try again.
-        </div>
-        <NewButton @click="fetchEvents">Retry Now</NewButton>
-      </div>
-    </sectionCard>
+    <ErrorCard :fetch="fetchEvents">events</ErrorCard>
   </template>
   <template v-else>
     <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -37,6 +30,7 @@ import LoadingEventCard from "./LoadingEventCard.vue";
 import EventCard from "./EventCard.vue";
 import sectionCard from "./sectionCard.vue";
 import NewButton from "./NewButton.vue";
+import ErrorCard from "./ErrorCard.vue";
 import useBooking from "../composables/useBookings";
 
 const { handleRegistration } = useBooking();
@@ -65,6 +59,7 @@ export default {
     LoadingEventCard,
     sectionCard,
     NewButton,
+    ErrorCard,
   },
   methods: {
     async fetchEvents() {
