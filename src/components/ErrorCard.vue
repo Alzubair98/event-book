@@ -4,7 +4,7 @@
       <div class="text-red-500">
         Could not load <slot></slot> at the moment. Please try again.
       </div>
-      <NewButton @click="fetch">Retry Now</NewButton>
+      <NewButton @click="fetch" v-if="fetch">Retry Now</NewButton>
     </div>
   </sectionCard>
 </template>

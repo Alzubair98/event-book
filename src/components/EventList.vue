@@ -1,10 +1,10 @@
 <template>
-  <template v-if="error">
+  <template v-if="eventsErrors">
     <ErrorCard :fetch="fetchEvents">events</ErrorCard>
   </template>
   <template v-else>
     <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <template v-if="!Loading">
+      <template v-if="!eventLoading">
         <template v-if="events.length">
           <EventCard
             v-for="event in events"
@@ -25,7 +25,6 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
 import LoadingEventCard from "./LoadingEventCard.vue";
 import EventCard from "./EventCard.vue";
 import sectionCard from "./sectionCard.vue";
@@ -33,25 +32,19 @@ import NewButton from "./NewButton.vue";
 import ErrorCard from "./ErrorCard.vue";
 import useBooking from "../composables/useBookings";
 
-const { handleRegistration } = useBooking();
-
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  description: string;
-  location: string;
-}
+const { fetchEvents, handleRegistration, eventsErrors, eventLoading, events } =
+  useBooking();
 
 export default {
   name: "EventList",
 
   data() {
     return {
-      events: ref<Event[]>([]),
-      Loading: ref(false),
-      error: ref(null),
       handleRegistration,
+      fetchEvents,
+      eventsErrors,
+      eventLoading,
+      events,
     };
   },
   components: {
@@ -61,21 +54,7 @@ export default {
     NewButton,
     ErrorCard,
   },
-  methods: {
-    async fetchEvents() {
-      try {
-        this.Loading = true;
-        this.error = null;
-        const response = await fetch("http://localhost:3001/events");
-        this.events = await response.json();
-      } catch (error: any) {
-        console.log("Failed to fetch events;", error);
-        this.error = error;
-      } finally {
-        this.Loading = false;
-      }
-    },
-  },
+
   mounted() {
     this.fetchEvents();
   },

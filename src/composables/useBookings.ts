@@ -18,7 +18,24 @@ interface Event {
 
 const bookings = ref<Bookings[]>([]);
 const Loading = ref(false);
+const eventLoading = ref(false);
 const bookingsErrors = ref(null);
+const eventsErrors = ref(null);
+const events = ref<Event[]>([]);
+
+const fetchEvents = async () => {
+  try {
+    eventLoading.value = true;
+    eventsErrors.value = null;
+    const response = await fetch("http://localhost:3001/events");
+    events.value = await response.json();
+  } catch (error: any) {
+    console.log("Failed to fetch events;", error);
+    eventsErrors.value = error;
+  } finally {
+    eventLoading.value = false;
+  }
+};
 
 const fetchBookings = async () => {
   try {
@@ -105,6 +122,10 @@ export default function useBooking() {
     handleRegistration,
     findBookingById,
     cancelBooking,
+    fetchEvents,
     bookingsErrors,
+    eventsErrors,
+    events,
+    eventLoading,
   };
 }
