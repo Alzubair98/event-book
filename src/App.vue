@@ -27,14 +27,8 @@ import LoadingEventBook from "./components/LoadingEventBook.vue";
 import EventList from "./components/EventList.vue";
 import useBooking from "./composables/useBookings";
 
-const {
-  bookings,
-  Loading,
-  fetchBookings,
-  handleRegistration,
-  findBookingById,
-  cancelBooking,
-} = useBooking();
+const { bookings, Loading, fetchBookings, findBookingById, cancelBooking } =
+  useBooking();
 
 export default {
   data() {
@@ -42,7 +36,6 @@ export default {
       bookings,
       Loading,
       fetchBookings,
-      handleRegistration,
       findBookingById,
       cancelBooking,
     };
