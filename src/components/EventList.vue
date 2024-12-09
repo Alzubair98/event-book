@@ -1,17 +1,10 @@
 <template>
-  <template v-if="error">
-    <sectionCard>
-      <div class="flex flex-col space-y-4 items-center justify-center">
-        <div class="text-red-500">
-          Could not load events at the moment. Please try again.
-        </div>
-        <NewButton @click="fetchEvents">Retry Now</NewButton>
-      </div>
-    </sectionCard>
+  <template v-if="eventsErrors">
+    <ErrorCard :fetch="fetchEvents">events</ErrorCard>
   </template>
   <template v-else>
     <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <template v-if="!Loading">
+      <template v-if="!eventLoading">
         <template v-if="events.length">
           <EventCard
             v-for="event in events"
@@ -19,7 +12,7 @@
             :title="event.title"
             :date="event.date"
             :description="event.description"
-            @register="$emit('register', event)"
+            @register="handleRegistration(event)"
           /> </template
         ><template v-else>
           <div class="col-span-2 text-center text-gray-500">No Events Yet</div>
@@ -32,28 +25,26 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
 import LoadingEventCard from "./LoadingEventCard.vue";
 import EventCard from "./EventCard.vue";
 import sectionCard from "./sectionCard.vue";
 import NewButton from "./NewButton.vue";
+import ErrorCard from "./ErrorCard.vue";
+import useBooking from "../composables/useBookings";
 
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  description: string;
-  location: string;
-}
+const { fetchEvents, handleRegistration, eventsErrors, eventLoading, events } =
+  useBooking();
 
 export default {
   name: "EventList",
 
   data() {
     return {
-      events: ref<Event[]>([]),
-      Loading: ref(false),
-      error: ref(null),
+      handleRegistration,
+      fetchEvents,
+      eventsErrors,
+      eventLoading,
+      events,
     };
   },
   components: {
@@ -61,25 +52,11 @@ export default {
     LoadingEventCard,
     sectionCard,
     NewButton,
+    ErrorCard,
   },
-  methods: {
-    async fetchEvents() {
-      try {
-        this.Loading = true;
-        this.error = null;
-        const response = await fetch("http://localhost:3001/events");
-        this.events = await response.json();
-      } catch (error: any) {
-        console.log("Failed to fetch events;", error);
-        this.error = error;
-      } finally {
-        this.Loading = false;
-      }
-    },
-  },
+
   mounted() {
     this.fetchEvents();
   },
-  emits: ["register"],
 };
 </script>

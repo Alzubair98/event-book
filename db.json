@@ -31,17 +31,10 @@
   ],
   "bookings": [
     {
-      "id": "1733640652054",
+      "id": "1733731266935",
       "userId": 1,
       "eventId": "1",
       "eventTitle": "Rails Conference 2024",
-      "status": "confirmed"
-    },
-    {
-      "id": "1733640738978",
-      "userId": 1,
-      "eventId": "4",
-      "eventTitle": "Rust Conference 2021",
       "status": "confirmed"
     }
   ]
