@@ -18,7 +18,8 @@
 <script>
 import useBooking from "../composables/useBookings";
 import BookingCard from "./BookingItem.vue";
-const { bookings, Loading, cancelBooking } = useBooking();
+import loadingEventBook from "./LoadingEventBook.vue";
+const { bookings, Loading, cancelBooking, fetchBookings } = useBooking();
 export default {
   name: "BookingList",
   data() {
@@ -26,10 +27,12 @@ export default {
       Loading,
       bookings,
       cancelBooking,
+      fetchBookings,
     };
   },
   components: {
     BookingCard,
+    loadingEventBook,
   },
   mounted() {
     this.fetchBookings();
