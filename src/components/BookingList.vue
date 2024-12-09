@@ -1,25 +1,41 @@
 <template>
-  <section class="flex flex-col gap-6">
-    <template v-if="!Loading">
-      <BookingCard
-        v-for="book in bookings"
-        :key="book.id"
-        :status="book.status"
-        @canceld="cancelBooking(book.id)"
-        >{{ book.eventTitle }}</BookingCard
-      >
-    </template>
-    <template v-else>
-      <loadingEventBook v-for="i in 2" :key="i" />
-    </template>
-  </section>
+  <template v-if="bookingsErrors">
+    <sectionCard>
+      <div class="flex flex-col space-y-4 items-center justify-center">
+        <div class="text-red-500">
+          Could not load bookings at the moment. Please try again.
+        </div>
+        <NewButton @click="fetchBookings">Retry Now</NewButton>
+      </div>
+    </sectionCard>
+  </template>
+  <template v-else>
+    <section class="flex flex-col gap-6">
+      <template v-if="!Loading">
+        <BookingCard
+          v-for="book in bookings"
+          :key="book.id"
+          :status="book.status"
+          @canceld="cancelBooking(book.id)"
+          >{{ book.eventTitle }}</BookingCard
+        >
+      </template>
+      <template v-else>
+        <loadingEventBook v-for="i in 2" :key="i" />
+      </template>
+    </section>
+  </template>
 </template>
 
 <script>
 import useBooking from "../composables/useBookings";
 import BookingCard from "./BookingItem.vue";
 import loadingEventBook from "./LoadingEventBook.vue";
-const { bookings, Loading, cancelBooking, fetchBookings } = useBooking();
+import sectionCard from "./sectionCard.vue";
+import NewButton from "./NewButton.vue";
+
+const { bookings, Loading, bookingsErrors, cancelBooking, fetchBookings } =
+  useBooking();
 export default {
   name: "BookingList",
   data() {
@@ -28,12 +44,16 @@ export default {
       bookings,
       cancelBooking,
       fetchBookings,
+      bookingsErrors,
     };
   },
   components: {
     BookingCard,
     loadingEventBook,
+    sectionCard,
+    NewButton,
   },
+
   mounted() {
     this.fetchBookings();
   },
